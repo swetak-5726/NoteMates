@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Uploads</title>
+</head>
+<body>
+  <h1>My Uploaded Notes</h1>
+
+  <% if (notes.length === 0) { %>
+    <p>You haven’t uploaded any notes yet.</p>
+  <% } else { %>
+    <% notes.forEach(note => { %>
+      <div>
+        <h3><%= note.title %> (<%= note.subject %>)</h3>
+        <p><%= note.description %></p>
+        <p><small>Uploaded on: <%= note.uploadedAt.toDateString() %></small></p>
+        <p><b>Uploaded by:</b> <%= note.uploadedBy %></p>
+
+        
+        <a href="/viewpdf/<%= note._id %>" target="_blank" class="btn btn-outline-primary btn-sm">
+         View PDF
+        </a>
+
+        <br><br>
+        <a href="/edit/<%= note._id %>">Edit</a>
+        <a href="/delete/<%= note._id %>" class="btn btn-outline-danger btn-sm"
+            onclick="return confirm('Are you sure you want to delete this note?');">
+            Delete
+        </a>
+
+        <hr>
+      </div>
+    <% }) %>
+  <% } %>
+
+  <br>
+  <a href="/user"> Back</a> 
+  
+</body>
+</html>

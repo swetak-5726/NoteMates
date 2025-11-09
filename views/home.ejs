@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes Sharing Platform</title>
+</head>
+<body>
+   <div class="navbar">
+
+    <a href="/signup"><button>Sign Up</button></a>
+    <a href="/login"><button>Login</button></a>
+
+</div>
+
+<h2> All Notes</h2>
+
+<% notes.forEach(note => { %>
+  <div class="note">
+    <h3><%= note.title %></h3>
+    <p><%= note.description %></p>
+    <a href="/viewpdf/<%= note._id %>" target="_blank" class="btn btn-outline-primary btn-sm">
+         View PDF
+    </a>
+
+  </div>
+<% }) %>
+  
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welcome, <%= user.username %></title>
+</head>
+<body>
+  <h1>Welcome, <%= user.username %></h1>
+
+  <ul>
+    <li><a href="/upload"> Upload New Notes</a></li>
+    <li><a href="/myuploads"> my Uploaded Notes</a></li>
+    <li><a href="/logout"> Logout</a></li>
+  </ul>
+
+  <hr>
+
+  <h2>All Notes</h2>
+
+  <% if (notes.length === 0) { %>
+    <p>No notes uploaded yet.</p>
+  <% } else { %>
+    <% notes.forEach(note => { %>
+      <div>
+        <h3><%= note.title %> (<%= note.subject %>)</h3>
+        <p><%= note.description %></p>
+        <p><small>Uploaded by: <b><%= note.uploadedBy %></b></small></p>
+        <a href="/viewpdf/<%= note._id %>" target="_blank" class="btn btn-outline-primary btn-sm">
+          View PDF
+        </a>
+
+
+        <hr>
+      </div>
+    <% }) %>
+  <% } %>
+</body>
+</html>
+
