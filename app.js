@@ -13,15 +13,14 @@ const PublicNote = require("./models/PublicNote");
 
 // Routes
 const authRoute = require("./routes/Auth");
+const myNotesRoute= require("./routes/myNotesRoute");
 const uploadRoute = require("./routes/upload");
-
 const app = express();
 
 // Middleware
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Express session
 app.use(
@@ -60,19 +59,15 @@ mongoose
   .then(() => console.log(" MongoDB Connected"))
   .catch((err) => console.log("MongoDB Connection Error:", err));
 
-
-// Auth routes (login, signup, logout)
 app.use("/", authRoute);
-
-// Upload & notes routes (upload, myuploads, view, edit, delete)
 app.use("/", uploadRoute);
+app.use(myNotesRoute);
 
 //Home route (shows public notes)
 app.get("/", async (req, res) => {
   try {
-    // If user already logged in, go directly to user page
     if (req.isAuthenticated()) {
-      return res.redirect("/userpage");
+      return res.redirect("/user");
     }
 
     const notes = await PublicNote.find().sort({ uploadedAt: -1 });
@@ -83,6 +78,6 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.listen(3000,(req,res)=> {
+app.listen(3000,()=> {
     console.log("port is successfully connected");
 })

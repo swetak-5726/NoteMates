@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Uploads</title>
+  <title>NoteMates</title>
 </head>
 <body>
   <h1>My Uploaded Notes</h1>
@@ -20,6 +20,9 @@
         
         <a href="/viewpdf/<%= note._id %>" target="_blank" class="btn btn-outline-primary btn-sm">
          View PDF
+        </a>&nbsp;
+        <a href="/download/<%= note._id %>" class="btn download-btn">
+         Download
         </a>
 
         <br><br>

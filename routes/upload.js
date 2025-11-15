@@ -11,11 +11,11 @@ const axios = require("axios");
 const upload = multer({ storage: multer.memoryStorage() });
 
 
-// ROUTE 1: Home Page — Show All Public Notes (No Auth Needed)
+// ROUTE 1: Home Page — Show All Public Notes
 router.get("/", async (req, res) => {
   try {
     const notes = await PublicNote.find().sort({ uploadedAt: -1 });
-    res.render("home", { notes }); // pass notes to home.ejs
+    res.render("home", { notes });
   } catch (err) {
     console.error("Error loading public notes:", err);
     res.status(500).send("Error loading public notes.");
@@ -103,6 +103,27 @@ router.get("/myuploads", ensureAuth, async (req, res) => {
     res.status(500).send("Error loading your uploads.");
   }
 });
+
+router.get("/download/:id", async (req, res) => {
+  try {
+    const note = await PublicNote.findById(req.params.id);
+    if (!note) return res.status(404).send("Note not found");
+
+    // Fetch PDF from Cloudinary
+    const pdf = await axios.get(note.pdfUrl, { responseType: "arraybuffer" });
+
+    // Force download
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=document.pdf");
+
+    res.send(pdf.data);
+
+  } catch (err) {
+    console.error("PDF Download Error:", err.message);
+    res.status(500).send("Failed to download PDF.");
+  }
+});
+
 
 //  ROUTE 5: Delete a Note
 router.get("/delete/:id", async (req, res) => {

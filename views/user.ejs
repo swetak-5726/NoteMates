@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Welcome, <%= user.username %></title>
+  <title>NoteMates</title>
 </head>
 <body>
   <h1>Welcome, <%= user.username %></h1>
@@ -11,6 +11,8 @@
     <li><a href="/upload"> Upload New Notes</a></li>
     <li><a href="/myuploads"> my Uploaded Notes</a></li>
     <li><a href="/logout"> Logout</a></li>
+    <li><a href="/mynotes">My Notes</a></li>
+
   </ul>
 
   <hr>
@@ -27,6 +29,9 @@
         <p><small>Uploaded by: <b><%= note.uploadedBy %></b></small></p>
         <a href="/viewpdf/<%= note._id %>" target="_blank" class="btn btn-outline-primary btn-sm">
           View PDF
+        </a>&nbsp;
+        <a href="/download/<%= note._id %>" class="btn download-btn">
+         Download
         </a>
 
 
