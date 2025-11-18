@@ -18,7 +18,7 @@ router.post("/mynotes/create", ensureAuth, async (req, res) => {
         title,
         content
     });
-
+    req.flash("success_msg", "Note added successfully!");
     res.redirect("/mynotes");
 });
 
@@ -30,7 +30,6 @@ router.get("/mynotes/view/:id", ensureAuth, async (req, res) => {
     });
 
     if (!note) return res.send("Not allowed");
-
     res.render("Notes/viewMyNote", { note });
 });
 
@@ -54,7 +53,7 @@ router.put("/mynotes/edit/:id", ensureAuth, async (req, res) => {
     res.redirect("/mynotes");
 });
 
-router.post("/mynotes/delete/:id", ensureAuth, async (req, res) => {
+router.get("/mynotes/delete/:id", ensureAuth, async (req, res) => {
     await MyNotes.findOneAndDelete({
         _id: req.params.id,
         user: req.user._id

@@ -3,41 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <title>NoteMates</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/home.css">
 </head>
 <body>
-  <h1>My Uploaded Notes</h1>
+  <%- include("partials/navbar") %>
+<%- include("partials/messages") %>
 
-  <% if (notes.length === 0) { %>
-    <p>You haven’t uploaded any notes yet.</p>
-  <% } else { %>
-    <% notes.forEach(note => { %>
-      <div>
-        <h3><%= note.title %> (<%= note.subject %>)</h3>
-        <p><%= note.description %></p>
-        <p><small>Uploaded on: <%= note.uploadedAt.toDateString() %></small></p>
-        <p><b>Uploaded by:</b> <%= note.uploadedBy %></p>
+<link rel="stylesheet" href="/note.css">
 
-        
-        <a href="/viewpdf/<%= note._id %>" target="_blank" class="btn btn-outline-primary btn-sm">
-         View PDF
-        </a>&nbsp;
-        <a href="/download/<%= note._id %>" class="btn download-btn">
-         Download
-        </a>
+<div class="notes-hero">
+    <h1>My Uploaded Notes</h1>
+    <p class="lead">View, manage, edit and delete your uploaded PDFs.</p>
+</div>
+<a href="/upload" class="btn btn-outline-light upload-btn">Upload PDF</a>
+<div class="notes-grid">
 
-        <br><br>
-        <a href="/edit/<%= note._id %>">Edit</a>
-        <a href="/delete/<%= note._id %>" 
-            onclick="return confirm('Are you sure you want to delete this note?');">
-            Delete
-        </a>
-        <hr>
-      </div>
-    <% }) %>
-  <% } %>
+    <% if (notes.length === 0) { %>
+        <p class="no-data">You haven’t uploaded any notes yet.</p>
+    <% } else { %>
 
-  <br>
-  <a href="/user"> Back</a> 
-  
+        <% notes.forEach(note => { %>
+
+        <div class="note-card">
+            <h3 class="note-title"><%= note.subject %></h3>
+            <span class="badge-subject"><%= note.description %></span>
+            <p class="note-desc"><%= note.title %></p>
+            <div class="uploaded-info">
+                <small>Uploaded on: <%= note.uploadedAt.toLocaleDateString() %></small>
+                <br>
+            </div>
+            <div class="note-actions">
+
+                <a href="/viewpdf/<%= note._id %>" target="_blank" class="btn btn-outline-light">
+                    <i class="fa-solid fa-eye"></i> View
+                </a>
+
+                <a href="/download/<%= note._id %>" class="btn btn-outline-light">
+                    <i class="fa-solid fa-download"></i> Download
+                </a>
+                <br>
+                <a href="/edit/<%= note._id %>" class="btn btn-outline-light">
+                    <i class="fa-solid fa-pen"></i> Edit
+                </a>
+
+                <a href="/delete/<%= note._id %>" class="btn btn-outline-light"
+                onclick="return confirm('Are you sure you want to delete this note?');">
+                    <i class="fa-solid fa-trash"></i> Delete
+                </a>
+
+            </div>
+        </div>
+        <% }) %>
+    <% } %>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

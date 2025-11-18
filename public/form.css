@@ -1,0 +1,89 @@
+
+body {
+  background: radial-gradient(circle, #2a2a2a, #000000);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  
+}
+
+.page-center {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-card {
+  background: #111;
+  padding: 30px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 420px;
+  color: white;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.7);
+  animation: pop 0.45s ease-out;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.form-control {
+  background: #222 !important;
+  border: none !important;
+  color: white !important;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.form-control:focus {
+  background: #222;
+  color: white;
+  box-shadow: 0 0 8px #008cff;
+}
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: #008cff;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background: #0070d1;
+}
+.bottom-text {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.bottom-text a {
+  color: #008cff;
+  text-decoration: none;
+}
+
+.bottom-text a:hover {
+  text-decoration: underline;
+}
+.form-label {
+  font-weight: 500;
+  color: #eee;
+}
+@media (max-width: 480px) {
+  .auth-card {
+    max-width: 90%;
+    padding: 20px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+}
+

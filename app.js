@@ -6,6 +6,7 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
+const flash=require("connect-flash");
 
 // Models
 const User = require("./models/user");
@@ -21,6 +22,8 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(express.static("public"));
+
 
 // Express session
 app.use(
@@ -30,7 +33,7 @@ app.use(
     saveUninitialized: false,
   })
 );
-
+app.use(flash());
 // Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
@@ -59,11 +62,21 @@ mongoose
   .then(() => console.log(" MongoDB Connected"))
   .catch((err) => console.log("MongoDB Connection Error:", err));
 
+
+app.use((req, res, next) => {
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.success_msg = req.flash("success_msg");
+    next();
+});
 app.use("/", authRoute);
 app.use("/", uploadRoute);
 app.use(myNotesRoute);
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+});
 
-//Home route (shows public notes)
+//Home route
 app.get("/", async (req, res) => {
   try {
     if (req.isAuthenticated()) {

@@ -1,0 +1,48 @@
+body {
+    background: #1b1f24;
+    color: #eaeaea;
+    min-height: 100vh;
+}
+.note-card {
+    background: #242a30;
+    border: 1px solid #333;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.note-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+}
+
+.note-title {
+    color: #00c3ff;
+    font-weight: 600;
+}
+
+.note-desc {
+    font-size: 0.9rem;
+    color: #c7c7c7;
+}
+
+.note-user {
+    font-size: 0.85rem;
+    color: #999;
+}
+.btn-outline-light {
+    border-radius: 6px;
+}
+
+.btn-primary {
+    background: #0db4ff;
+    border: none;
+    border-radius: 6px;
+}
+
+.btn-primary:hover {
+    background: #17a8ff;
+}
+@media (max-width: 768px) {
+    .note-card {
+        padding: 1rem;
+    }
+}

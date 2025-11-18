@@ -5,26 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NoteMates</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/viewNote.css">
 </head>
 <body>
-  <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h1><%= note.title %></h1>
-      <div>
-        <a href="/mynotes/edit/<%= note._id %>" class="btn btn-outline-secondary">Edit</a>
-        <a href="/mynotes" class="btn btn-outline-primary">Back to notes</a>
-      </div>
+ <body>
+    <%- include("../partials/navbar") %>
+
+    <h1 class="note-title-main"><%= note.title %></h1>
+
+    <div class="action-buttons">
+        <a href="/mynotes/edit/<%= note._id %>" class="btn btn-outline-light">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+        </a>
+
+        <a href="/mynotes" class="btn btn-outline-light">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </a>
     </div>
 
-    <div class="card">
-      <div class="card-body">
-        <p style="white-space: pre-wrap;"><%= note.content %></p>
-        <hr>
-        <small class="text-muted">Created: <%= new Date(note.createdAt).toLocaleString() %></small>
-      </div>
+    <div class="view-note-card">
+        <p class="note-content"><%= note.content %></p>
+        <span class="note-date">Created on: <%= new Date(note.createdAt).toLocaleString() %></span>
     </div>
-  </div>
+</body>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

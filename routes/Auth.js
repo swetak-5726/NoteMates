@@ -4,62 +4,49 @@ const User = require("../models/user");
 const router = express.Router();
 const { ensureGuest } = require("../middleware/auth");
 
-// Signup route (GET)
 router.get('/signup', ensureGuest, (req, res) => {
   res.render('signup', { duplicateError: null });
 });
 
-// Signup route (POST)
-router.post('/signup', ensureGuest, async (req, res) => {
+router.post('/signup', ensureGuest, async (req, res,) => {
   const { username, email, password } = req.body;
 
   try {
-    // Check for existing username or email
     const existingUser = await User.findOne({
       $or: [{ username }, { email }]
     });
 
     if (existingUser) {
-      let msg;
-      if (existingUser.username === username) {
-        msg = "Username already exists!";
-      } else {
-        msg = "Email already registered!";
-      }
-
-      // Render signup page again with error message
-      return res.render('signup', { duplicateError: msg });
+        req.flash("error_msg", "Email or username already registered.");
+        return res.redirect("/signup");
     }
-
-    // Create new user
     const user = new User({ username, email });
-    await User.register(user, password); // handled by passport-local-mongoose
+    await User.register(user, password);
 
-    res.redirect('/login');
+    req.flash("success_msg", "Signup successful! Please login.");
+    res.redirect("/login");
   } catch (err) {
     console.error(err);
-    res.render('signup', { duplicateError: 'Error during signup. Please try again.' });
+    req.flash("error_msg", "Something went wrong. Please try again");
+    res.redirect("/signup");
   }
 });
 
-// Login route (only for guests)
 router.get("/login", ensureGuest, (req, res) => {
   res.render("login");
 });
 
-router.post(
-  "/login",
-  ensureGuest,
+router.post("/login", ensureGuest, (req, res, next) => {
   passport.authenticate("local", {
     successRedirect: "/user",
     failureRedirect: "/login",
-  })
-);
+    failureFlash: true
+  })(req, res, next);
+});
 
-// Logout route (accessible to all)
 router.get("/logout", (req, res) => {
   req.logout(() => {
-    res.redirect("/"); //Redirects to home after logout
+    res.redirect("/");
   });
 });
 
