@@ -23,7 +23,7 @@ const publicNoteSchema = new mongoose.Schema({
         default: Date.now
     },
     uploadedBy: {
-        type: String, // store username or email later
+        type: String, 
         required:true
     }
 });

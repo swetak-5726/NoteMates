@@ -2,16 +2,16 @@
 
 function ensureAuth(req, res, next) {
   if (req.isAuthenticated()) {
-    return next(); //User is logged in — allow access
+    return next();
   }
-  res.redirect("/login"); // Not logged in — redirect to login page
+  res.redirect("/login");
 }
 
 function ensureGuest(req, res, next) {
   if (!req.isAuthenticated()) {
-    return next(); //User not logged in — allow access
+    return next();
   }
-  res.redirect("/user"); //Already logged in — redirect to dashboard
+  res.redirect("/user");
 }
 
 module.exports = { ensureAuth, ensureGuest };
