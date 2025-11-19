@@ -1,4 +1,5 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -7,7 +8,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
 const flash=require("connect-flash");
-const mongoStore=require("connect-mongo");
+const MongoStore=require("connect-mongo");
 const dbUrl=process.env.ATLASDB_URL;
 // Models
 const User = require("./models/user");
@@ -24,9 +25,9 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
-const store=mongoStore.create({
+const store=MongoStore.create({
   mongoUrl:dbUrl,
-  ttl:24*3600,
+  ttl:14*24*60*60,
 });
 
 // Express session
