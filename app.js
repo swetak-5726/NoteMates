@@ -7,7 +7,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
 const flash=require("connect-flash");
-
+const mongoStore=require("connect-mongo");
+const dbUrl=process.env.ATLASDB_URL;
 // Models
 const User = require("./models/user");
 const PublicNote = require("./models/PublicNote");
@@ -23,16 +24,22 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
-
+const store=mongoStore.create({
+  mongoUrl:dbUrl,
+  ttl:24*3600,
+});
 
 // Express session
 app.use(
   session({
+    store,
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    
   })
 );
+
 app.use(flash());
 // Passport initialization
 app.use(passport.initialize());
@@ -56,9 +63,11 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+
 // MongoDB connection
+
 mongoose
-  .connect("mongodb://127.0.0.1:27017/notesDB")
+  .connect(dbUrl)
   .then(() => console.log(" MongoDB Connected"))
   .catch((err) => console.log("MongoDB Connection Error:", err));
 
